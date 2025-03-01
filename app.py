@@ -38,11 +38,7 @@ plt.title("COVID-19 Data for USA")
 plt.show()
 
 
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR
 
-mod = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
-mod.fit(X_train, y_train)
 
 # Predict next day's cases
 next_day = np.array([[31]])
@@ -63,10 +59,18 @@ print(df_historical.head())
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVR
+
+
+
 X = df_historical[["day"]]
 y = df_historical["cases"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+mod = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
+mod.fit(X_train, y_train)
 
 model = LinearRegression()
 model.fit(X_train, y_train)

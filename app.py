@@ -41,8 +41,7 @@ plt.show()
 
 
 # Predict next day's cases
-next_day = np.array([[31]])
-predicted_cases = model.predict(next_day)
+
 
 import numpy as np
 

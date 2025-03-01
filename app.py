@@ -93,4 +93,5 @@ day_input = st.number_input("Enter day number (e.g., 31 for prediction)", min_va
 if st.button("Predict"):
     prediction = mod.predict([[day_input]])
     st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")
-
+    prediction = model.predict([[day_input]])
+    st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")

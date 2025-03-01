@@ -95,3 +95,15 @@ if st.button("Predict"):
     st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")
     prediction = model.predict([[day_input]])
     st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.plot(df_historical["day"], df_historical["cases"], label="Cases", color="blue", marker="o")
+ax.plot(df_historical["day"], df_historical["deaths"], label="Deaths", color="red", marker="x")
+ax.set_xlabel("Day")
+ax.set_ylabel("Count")
+ax.set_title("Historical COVID-19 Cases and Deaths (Last 30 Days)")
+ax.legend()
+st.pyplot(fig)
+

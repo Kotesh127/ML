@@ -6,3 +6,52 @@ r = requests.get(url)
 data = r.json()
 
 print(data)
+
+import pandas as pd
+import numpy as np
+from sklearn.svm import SVR
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import streamlit as st
+
+
+
+# Extract the time series data
+time_series = data['Time Series (5min)']
+
+# Convert the time series data into a DataFrame
+df = pd.DataFrame.from_dict(time_series, orient='index')
+
+# Rename the columns for better readability
+df.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
+
+# Convert the index to a datetime object
+df.index = pd.to_datetime(df.index)
+
+# Sort the DataFrame by date
+df = df.sort_index()
+
+# Prepare the data for SVM regression
+X = np.arange(len(df)).reshape(-1, 1)  # Use the index as the feature
+y = df['Close'].astype(float).values  # Use the 'Close' prices as the target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the SVM regression model
+svm_model = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
+svm_model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = svm_model.predict(X_test)
+
+# Visualize the results
+plt.figure(figsize=(10, 6))
+plt.plot(df.index, y, label='Actual Prices')
+plt.plot(df.index[len(X_train):], y_pred, label='Predicted Prices', linestyle='dashed')
+plt.xlabel('Date')
+plt.ylabel('Close Price')
+plt.title('SVM Regression: Actual vs Predicted Prices')
+plt.legend()
+plt.show()
+
